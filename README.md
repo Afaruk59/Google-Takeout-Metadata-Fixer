@@ -39,6 +39,13 @@ Recursively finds and permanently deletes all `.json` files within the target di
 python delete_json_files.py [path_to_directory]
 ```
 
+### 4. `organize_by_year.py` (The Organizer)
+Groups and moves all media files into specific folders categorized by their modification year (e.g., `2024`, `2023`). It smartly ignores script files and system directories. Perfect for organizing files after fixing their dates.
+```bash
+# Kullanım (Usage)
+python organize_by_year.py [path_to_directory]
+```
+
 ## 📋 Requirements
 - **Python 3.8+**
 - **Windows OS** (The script uses Windows-specific API `ctypes.windll.kernel32.SetFileTime` to alter the true "Creation Date" property. Running on macOS/Linux will still update the modification date via `os.utime`, but creation date requires OS-specific adaptations).
