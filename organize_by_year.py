@@ -29,11 +29,20 @@ def organize_files_by_year(target_directory):
             continue
 
         try:
-            # Dosyanın değiştirilme tarihini (mtime) al
-            # fix_google_takeout_dates.py çalıştıktan sonra bu mtime doğru tarihe sahip olacaktır
-            mtime = os.path.getmtime(filepath)
-            date_mtime = datetime.datetime.fromtimestamp(mtime)
-            year = str(date_mtime.year)
+            # Önce dosya adından tarihi (yılı) çıkarmayı dene
+            year = None
+            # Genel 8 rakamlı tarih (19XX veya 20XX) arayalım
+            import re
+            pattern = r'(20\d{2}|19\d{2})[-_]?([0-1]\d)[-_]?([0-3]\d)'
+            match = re.search(pattern, filename)
+            
+            if match:
+                year = match.group(1)
+            else:
+                # Dosya adında tarih yoksa değiştirilme tarihine (mtime) bak
+                mtime = os.path.getmtime(filepath)
+                date_mtime = datetime.datetime.fromtimestamp(mtime)
+                year = str(date_mtime.year)
 
             # Yıla ait hedef klasör yolunu oluştur
             year_folder_path = os.path.join(target_directory, year)
